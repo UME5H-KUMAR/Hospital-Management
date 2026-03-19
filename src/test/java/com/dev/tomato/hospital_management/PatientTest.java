@@ -23,7 +23,7 @@ public class PatientTest {
 
     @Test
     public void testPatientRepository() {
-        List<Patient> patientList = patientRepository.findAll();
+        List<Patient> patientList = patientRepository.findPatientsWithAppointments();
         System.out.println(patientList);
     }
 

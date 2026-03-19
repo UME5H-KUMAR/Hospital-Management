@@ -18,10 +18,18 @@ public class InsuranceService {
 
     @Transactional
     public Patient assignInsuranceToPatient(Insurance insurance, Long patientId) {
-        var patient = patientRepository.findById(patientId)
+        Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
         patient.setInsurance(insurance);
         insurance.setPatient(patient);
+        return patient;
+    }
+
+    public Patient disassociateInsuranceFromPatient(Long patientId){
+        Patient patient = patientRepository.findById(patientId)
+                        .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
+
+        patient.setInsurance(null);
         return patient;
     }
 
