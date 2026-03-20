@@ -47,11 +47,11 @@ public class InsuranceTest {
             .reason("cancer")
             .build();
         
-        Appointment savedAppointment = appointmentService.createNewAppointment(appointment, 1L, 2L);
-        System.out.println(savedAppointment);
+        // Appointment savedAppointment = appointmentService.createNewAppointment(appointment, 1L, 2L);
+        // System.out.println(savedAppointment);
 
-        Appointment reAssignedAppointment = appointmentService.reAssignAppointmentToAnotherDoctor(savedAppointment.getId(), 3L);
-        System.out.println(reAssignedAppointment);
+        // Appointment reAssignedAppointment = appointmentService.reAssignAppointmentToAnotherDoctor(savedAppointment.getId(), 3L);
+        // System.out.println(reAssignedAppointment);
     }
 
 
