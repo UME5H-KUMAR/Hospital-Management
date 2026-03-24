@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignupResponseDto {
 
-    private String userId;
+    private Long userId;
     private String username;
 }

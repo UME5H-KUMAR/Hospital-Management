@@ -1,13 +1,17 @@
 package com.dev.tomato.hospital_management.entity;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import io.jsonwebtoken.lang.Collections;
+import com.dev.tomato.hospital_management.entity.type.AuthProviderType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,13 +35,19 @@ public class User  implements UserDetails{
     private Long id;    
     
     @Column(unique = true, nullable = false)
+    // username can be of type email or any unique identifier based on the provider
     private String username;
+    
     private String password;
+
+    private String providerId;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProviderType providerType;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
-        return Collections.emptyList();
+        return List.of();
     }
     
 
