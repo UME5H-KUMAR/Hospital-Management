@@ -18,5 +18,7 @@ public class SignupRequestDto {
     private String password;
     private String name;
 
+
+    //roles should not be allowed for the user to choose
     private Set<RoleType> roles= new HashSet<>();
 }

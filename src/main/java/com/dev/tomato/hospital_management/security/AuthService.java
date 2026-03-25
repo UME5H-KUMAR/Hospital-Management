@@ -2,7 +2,7 @@ package com.dev.tomato.hospital_management.security;
 
 import java.util.Set;
 
-import org.modelmapper.ModelMapper;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,9 +16,11 @@ import com.dev.tomato.hospital_management.dto.LoginRequestDto;
 import com.dev.tomato.hospital_management.dto.LoginResponseDto;
 import com.dev.tomato.hospital_management.dto.SignupRequestDto;
 import com.dev.tomato.hospital_management.dto.SignupResponseDto;
+import com.dev.tomato.hospital_management.entity.Patient;
 import com.dev.tomato.hospital_management.entity.User;
 import com.dev.tomato.hospital_management.entity.type.AuthProviderType;
 import com.dev.tomato.hospital_management.entity.type.RoleType;
+import com.dev.tomato.hospital_management.repository.PatientRepository;
 import com.dev.tomato.hospital_management.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -28,11 +30,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
     private final AuthUtil authUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PatientRepository patientRepository;
 
     
 
@@ -59,13 +61,24 @@ public class AuthService {
             .username(signupRequest.getUsername())
             .providerId(providerId)
             .providerType(providerType)
+            .roles(signupRequest.getRoles()) // though we should not allow user to set roles themselves
             .build();
         
         if(providerType == AuthProviderType.EMAIL){
             user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         }
 
-        return userRepository.save(user);
+        user=userRepository.save(user);
+
+        Patient patient = Patient.builder()
+            .name(signupRequest.getName())
+            .email(signupRequest.getUsername())
+            .user(user)
+            .build();
+
+        patientRepository.save(patient);
+
+        return user;
 
     }
 

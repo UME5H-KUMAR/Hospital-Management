@@ -16,11 +16,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -28,6 +32,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+
 @Table(name = "patient", 
     uniqueConstraints = {
         @UniqueConstraint(name= "unique_patient_name_dob", columnNames = {"name", "dateOfBirth"}),
@@ -38,6 +43,10 @@ import lombok.ToString;
     }
 )
 
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Patient {
 
     
@@ -45,7 +54,7 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -54,7 +63,10 @@ public class Patient {
     private LocalDate dateOfBirth;
     private String gender;
 
-    @Column(nullable = false)
+    @OneToOne
+    @MapsId
+    private User user;
+
     private String bloodGroup;
 
     @CreationTimestamp
